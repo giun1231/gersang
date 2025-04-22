@@ -3,6 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import urllib.parse
+import json
 
 app = Flask(__name__)
 
@@ -133,6 +134,23 @@ def calculate_cost(item_name):
         })
     return {'details': details, 'total': total}
 
+# 아이템 전체 목록을 캐시에 저장
+ALL_ITEMS = set()
+CATEGORIES = ['sword', 'twin', 'spear', 'axe', 'bow', 'crossbow', 'gun', 'wand', 'staff', 'accessory', 'armor', 'helmet', 'ring', 'shield', 'shoes', 'bracelet', 'glove', 'scroll']
+
+def load_all_items():
+    for category in CATEGORIES:
+        url = f"https://www.gerniverse.app/item?category={category}"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        for a in soup.select('a[href^="/item/"]'):
+            name = a.text.strip()
+            if name:
+                ALL_ITEMS.add(name)
+
+# 서버 시작 시 전체 목록 로드
+load_all_items()
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     result = None
@@ -145,19 +163,8 @@ def index():
 @app.route('/suggest')
 def suggest():
     query = request.args.get('q', '').strip()
-    categories = ['sword', 'twin', 'spear', 'axe', 'bow', 'crossbow', 'gun', 'wand', 'staff', 'accessory', 'armor', 'helmet', 'ring', 'shield', 'shoes', 'bracelet', 'glove', 'scroll']
-    suggestions = set()
-
-    for category in categories:
-        url = f"https://www.gerniverse.app/item?category={category}"
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'html.parser')
-        for a in soup.select('a[href^="/item/"]'):
-            name = a.text.strip()
-            if query in name:
-                suggestions.add(name)
-
-    return jsonify(list(suggestions)[:10])
+    matched = [name for name in ALL_ITEMS if query in name]
+    return jsonify(matched[:10])
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
