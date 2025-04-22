@@ -6,16 +6,17 @@ import urllib.parse
 
 app = Flask(__name__)
 
-HTML_TEMPLATE = """<!doctype html>
+HTML_TEMPLATE = """
+<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
-  <title>거상 제작 단가 계산기</title>
+  <title>일편단심 계산기</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body class="p-5">
-  <h1 class="mb-4">거상 제작 단가 계산기</h1>
+  <h1 class="mb-4">일편단심 계산기</h1>
   <form method="post">
     <div class="mb-3 position-relative">
       <input type="text" id="item_name" name="item_name" class="form-control" placeholder="아이템 이름 입력 (예: 화룡도)" required autocomplete="off">
@@ -57,7 +58,8 @@ HTML_TEMPLATE = """<!doctype html>
     });
   </script>
 </body>
-</html>"""
+</html>
+"""
 
 def format_price(value):
     return f"{value:,}"
