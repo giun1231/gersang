@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ item }} - 검색 결과</title>
+    <style>
+        body { font-family: sans-serif; padding: 2em; }
+        .result-box { border: 1px solid #ccc; padding: 1em; background: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h2>‘{{ item }}’ 검색 결과</h2>
+    <div class="result-box">{{ result|safe }}</div>
+    <p><a href="/">← 다시 검색하기</a></p>
+</body>
+</html>

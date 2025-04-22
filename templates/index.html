@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>일편단심 검색기</title>
+    <style>
+        body {
+            background-image: url('/static/main_bg.png');
+            background-size: cover;
+            font-family: sans-serif;
+            text-align: center;
+            padding-top: 20%;
+            color: white;
+        }
+        input {
+            padding: 10px;
+            font-size: 1.2em;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.2em;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>일편단심 검색기</h1>
+    <form action="/search" method="get">
+        <input type="text" name="item" placeholder="아이템 이름 입력">
+        <button type="submit">검색</button>
+    </form>
+</body>
+</html>
